@@ -119,14 +119,14 @@ function App() {
       {/* Hero Section with Video Background */}
       <div className="relative h-screen">
         <video 
-  autoPlay 
-  muted 
-  loop 
-  className="absolute inset-0 w-full h-full object-cover"
-  poster="https://images.unsplash.com/photo-1531218150217-54595bc2b934?auto=format&fit=crop&q=80"
->
-  <source src="https://player.vimeo.com/progressive_redirect/playback/689032779/rendition/720p/file.mp4?loc=external&oauth2_token_id=1747418641&signature=e0fa5b700c0f4cedb0a21d27d4ba9c74c6b7b8ac" />
-</video>
+          autoPlay 
+          muted 
+          loop 
+          className="absolute inset-0 w-full h-full object-cover"
+          poster="https://images.unsplash.com/photo-1531218150217-54595bc2b934?auto=format&fit=crop&q=80"
+          >
+          <source src="https://player.vimeo.com/progressive_redirect/playback/689032779/rendition/720p/file.mp4?loc=external&oauth2_token_id=1747418641&signature=e0fa5b700c0f4cedb0a21d27d4ba9c74c6b7b8ac" />
+        </video>
         <div className="absolute inset-0 bg-gray-900/60">
           <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center text-white">
             <div className="relative w-32 md:w-40 h-32 md:h-40 mb-6 md:mb-8 transform hover:scale-110 transition-transform duration-500">
@@ -150,8 +150,8 @@ function App() {
               </a>
               <button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-full shadow-lg shadow-blue-600/30 transition-all duration-300">
                 <a href="https://customer.dispatch.me/booking?account_id=37&org_id=390881" className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-full shadow-lg shadow-blue-600/30 transition-all duration-300">
-  Schedule Service
-</a> Service
+                  Schedule Service 
+                </a>
               </button>
             </div>
           </div>
