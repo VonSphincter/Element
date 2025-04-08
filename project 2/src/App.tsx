@@ -150,7 +150,7 @@ function App() {
               </a>
               <button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-6 py-3 rounded-full shadow-lg shadow-blue-600/30 transition-all duration-300">
                 Schedule Service
-              </button>
+              </button>https://customer.dispatch.me/booking?account_id=37&org_id=390881
             </div>
           </div>
         </div>
