@@ -1,0 +1,60 @@
+diff --git a/public/index.html b/public/index.html
+index 5e4a32d..8a9d123 100644
+--- a/public/index.html
++++ b/public/index.html
+@@
+ <head>
+-  <meta charset="utf-8" />
+-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+-  <meta name="theme-color" content="#000000" />
+-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
++  <meta charset="utf-8" />
++  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
++  <meta name="viewport" content="width=device-width,initial-scale=1" />
++
++  <!-- SEO -->
++  <title>Element HVAC Services | 24/7 Heating & Air Conditioning in San Antonio, TX</title>
++  <meta name="description" content="Element HVAC Services offers fast, reliable residential and commercial HVAC repair, installation & maintenance in San Antonio, Bulverde, New Braunfels & surrounding areas." />
++  <meta name="keywords" content="HVAC San Antonio, air conditioning repair, AC installation, heating repair, Element HVAC Services" />
++  <meta name="robots" content="index, follow" />
++
++  <!-- Open Graph -->
++  <meta property="og:type" content="website" />
++  <meta property="og:title" content="Element HVAC Services | HVAC Repair & Installation San Antonio" />
++  <meta property="og:description" content="24/7 licensed heating & air‑conditioning service throughout San Antonio metro. Satisfaction guaranteed." />
++  <meta property="og:url" content="https://www.elementhvacservices.com/" />
++  <meta property="og:site_name" content="Element HVAC Services" />
++
++  <!-- Performance -->
++  <link rel="preconnect" href="https://fonts.googleapis.com">
++  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
++  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
++  <meta name="theme-color" content="#000000" />
++  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+@@
+   <div id="root"></div>
++
++  <!-- Start of Tawk.to Script -->
++  <script type="text/javascript">
++    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
++    (function() {
++      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
++      s1.async = true;
++      /** TODO: Replace the X's below with your unique Tawk widget ID **/
++      s1.src = "https://embed.tawk.to/XXXXXXXXXXXXXXXXXXXXXXXX/1hkkkkkk";
++      s1.charset = "UTF-8";
++      s1.setAttribute("crossorigin", "*");
++      s0.parentNode.insertBefore(s1, s0);
++    })();
++  </script>
++  <noscript>
++    <div style="text-align:center;padding:1rem;font-size:14px;">
++      Chat is unavailable because JavaScript is disabled. Call us at
++      <a href="tel:+12109578800">(210) 957‑8800</a> or email
++      <a href="mailto:service@elementhvacservices.com">service@elementhvacservices.com</a>.
++    </div>
++  </noscript>
++  <!-- End of Tawk.to Script -->
+ </body>
+ </html>
