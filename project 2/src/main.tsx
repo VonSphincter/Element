@@ -4,13 +4,13 @@ import App from './App.tsx';
 import './index.css';
 
 // Add error boundary
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+class ErrorBoundary extends React.Component<React.PropsWithChildren<object>, { hasError: boolean }> {
+  constructor(props: React.PropsWithChildren<object>) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError() {
     return { hasError: true };
   }
 

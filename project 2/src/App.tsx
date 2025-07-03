@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cog, Phone, Clock, MapPin, Shield, ThumbsUp, Award, Mail, Snowflake, Star, Factory, Droplet, Home, PenTool as Tool, Flame } from 'lucide-react';
+import { Cog, Phone, Clock, MapPin, Shield, Award, Mail, Snowflake, Star, Factory, Droplet, Home, PenTool as Tool, Flame } from 'lucide-react';
 
 function App() {
   const reviews = [
