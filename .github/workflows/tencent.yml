@@ -41,7 +41,8 @@ jobs:
         run: |
           docker push ${TKE_IMAGE_URL}:${GITHUB_SHA}
 
-      # Kustomize
+      # Kustomize 
+      
       - name: Set up Kustomize
         run: |
           curl -sSL -o kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
@@ -66,10 +67,14 @@ jobs:
         working-directory: ${{ env.KUSTOMIZE_DIR }}
         run: |
           # Replace the image defined in kustomization.yaml
-          ../kustomize edit set image ${IMAGE_NAME_IN_KUSTOMIZE}=${TKE_IMAGE_URL}:${GITHUB_SHA}
-          ../kustomize build . | kubectl apply -f -
+          ./kustomize edit set image ${IMAGE_NAME_IN_KUSTOMIZE}=${TKE_IMAGE_URL}:${GITHUB_SHA}
+          ./kustomize build . | kubectl apply -f -
           kubectl rollout status deployment/${DEPLOYMENT_NAME}
           kubectl get services -o wide
 defaults:
   run:
+  ∫
+
+
+    
     
