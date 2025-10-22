@@ -10,8 +10,11 @@ env:
   TKE_REGION: ap-guangzhou
   TKE_CLUSTER_ID: cls-mywebapp                            # must be the real TKE cluster ID, e.g. cls-abc123
   DEPLOYMENT_NAME: tke-test
-  KUSTOMIZE_DIR: .                                        # set to the folder with your kustomization.yaml
-  IMAGE_NAME_IN_KUSTOMIZE: mywebapp                       # must match 'images.name' in kustomization.yaml
+  KUSTOMIZE_DIR: .env:
+  KUSTOMIZE_DIR: k8s/overlays/prod
+                                        # set to the folder with your kustomization.yaml
+  IMAGE_NAME_IN_KUSTOMIZE: ./kustomize edit set image ccr.ccs.tencentyun.com/demo/mywebapp=${TKE_IMAGE_URL}:${GITHUB_SHA}
+                       # must match 'images.name' in kustomization.yaml
 
 permissions:
   contents: read
@@ -73,7 +76,24 @@ jobs:
           kubectl get services -o wide
 defaults:
   run:
-  ∫
+  - name: Build Docker image
+  run: |
+    docker build -t ${TKE_IMAGE_URL}:${GITHUB_SHA} -t ${TKE_IMAGE_URL}:latest -f docker/Dockerfile .
+
+- name: Publish
+  run: |
+    docker push ${TKE_IMAGE_URL}:${GITHUB_SHA}
+    docker push ${TKE_IMAGE_URL}:latest
+env:
+  KUBE_NAMESPACE: prod
+...
+- name: Deploy
+  run: |
+    ../kustomize edit set image ${IMAGE_NAME_IN_KUSTOMIZE}=${TKE_IMAGE_URL}:${GITHUB_SHA}
+    ../kustomize build . | kubectl apply -n ${KUBE_NAMESPACE} -f -
+    kubectl rollout status -n ${KUBE_NAMESPACE} deployment/${DEPLOYMENT_NAME}
+    kubectl get services -n ${KUBE_NAMESPACE} -o wide
+  
 
 
     
