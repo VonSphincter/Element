@@ -1,7 +1,9 @@
 name: Deploy to Firebase Hosting on merge
+
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build_and_deploy:
@@ -16,9 +18,11 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+        working-directory: project 2
         run: npm install
 
       - name: Build project
+        working-directory: project 2
         run: npm run build
 
       - name: Deploy to Firebase Hosting
