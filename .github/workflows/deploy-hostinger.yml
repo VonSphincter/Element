@@ -1,0 +1,36 @@
+name: Build and Deploy to Hostinger
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    name: Build and deploy frontend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Build project 2
+        run: |
+          cd "project 2"
+          npm ci
+          npm run build
+      - name: Deploy built files to Hostinger (FTP/SFTP)
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          password: ${{ secrets.HOSTINGER_PASSWORD }}
+          port: ${{ secrets.HOSTINGER_PORT }}
+          local-dir: "project 2/dist"
+          server-dir: ${{ secrets.HOSTINGER_PATH }}
+
+# Notes:
+# - Create the following repository secrets: HOSTINGER_HOST, HOSTINGER_USERNAME, HOSTINGER_PASSWORD
+#   Optionally: HOSTINGER_PORT (defaults to 21) and HOSTINGER_PATH (defaults to your site's root, e.g. /public_html).
+# - This workflow only deploys the frontend `dist` directory. If you also want to deploy the `api/` Node app,
+#   confirm your Hostinger plan supports Node applications and tell me the preferred deployment method (SFTP, Git, or container).

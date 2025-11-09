@@ -1,0 +1,85 @@
+name: Deploy API to Hostinger via SSH
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-api:
+    name: Build and deploy API (SSH)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Archive API folder
+        run: |
+          cd api
+          npm ci --no-audit --no-fund
+          zip -r ../api-deploy.zip . -x "node_modules/*" 
+
+      - name: Copy archive to server (SCP)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: "api-deploy.zip"
+          target: "${{ secrets.REMOTE_PATH }}"
+
+      - name: Unpack and install on remote, then start with pm2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            set -e
+            TARGET="${{ secrets.REMOTE_PATH }}"
+            cd "$TARGET"
+            # Unpack archive
+            unzip -o api-deploy.zip -d api-deploy-tmp
+            rsync -a --delete api-deploy-tmp/ ./
+            rm -rf api-deploy-tmp api-deploy.zip
+            # Ensure Node and npm are available; install dependencies
+            if command -v npm >/dev/null 2>&1; then
+              npm ci --production --no-audit --no-fund || true
+            fi
+            # Ensure pm2 is available, otherwise install globally
+            if ! command -v pm2 >/dev/null 2>&1; then
+              echo "pm2 not found, installing globally"
+              npm install -g pm2 || true
+            fi
+            # Restart or start the app via pm2
+            pm2 describe element-api >/dev/null 2>&1 && pm2 restart element-api || pm2 start index.js --name element-api
+            pm2 save || true
+
+      - name: Smoke-test API (optional)
+        if: ${{ secrets.DEPLOY_API_URL != '' }}
+        run: |
+          echo "Running smoke test against ${{ secrets.DEPLOY_API_URL }}"
+          set -e
+          # Try /ping endpoint
+          URL="${{ secrets.DEPLOY_API_URL }}"
+          # Allow user to set base URL (e.g. https://api.example.com) or full endpoint.
+          resp=$(curl -fsS --max-time 10 "$URL/ping" || true)
+          if [ -z "$resp" ]; then
+            echo "Smoke test failed: no response from $URL/ping"
+            exit 1
+          fi
+          echo "$resp" | grep -q '"ok"' || (echo "Smoke test failed: expected JSON with \"ok\" key" && echo "$resp" && exit 1)
+
+# Required repository secrets:
+# - SSH_HOST: server host (IP or domain)
+# - SSH_PORT: optional SSH port (default 22)
+# - SSH_USER: SSH user
+# - SSH_PRIVATE_KEY: private key (PEM) with access to SSH_USER
+# - REMOTE_PATH: absolute path on the server where the API should live (e.g. /home/username/api)
+
+# Server requirements:
+# - SSH access enabled for SSH_USER
+# - Node.js and npm installed on the server (or allow the workflow to install required packages)
+# - pm2 is recommended for process management (workflow installs it if missing)

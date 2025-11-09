@@ -1,1 +1,31 @@
+name: Build (project 2)
 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install & build
+        run: |
+          cd "project 2"
+          npm ci
+          npm run build
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: project 2/dist
+
+# Note: Deployment is handled outside this repo (Hostinger). This workflow only builds the app and
+# uploads the `dist` artifact. Remove or update the artifact step if you do not need it.
