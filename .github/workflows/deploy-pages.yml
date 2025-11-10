@@ -1,0 +1,40 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build project 2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install & build
+        run: |
+          cd "project 2"
+          npm ci
+          npm run build
+      - name: Upload artifact for Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: project 2/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      contents: read
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+
+# This workflow builds `project 2` and deploys the `dist` folder to GitHub Pages.
+# The repository root contains a `CNAME` file set to www.elementhvacservices.com so Pages will serve that domain.
