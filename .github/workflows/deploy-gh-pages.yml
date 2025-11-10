@@ -4,6 +4,11 @@ on:
   push:
     branches: [ main ]
 
+# Grant the workflow explicit permissions so the GITHUB_TOKEN can push to the gh-pages branch
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
