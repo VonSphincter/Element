@@ -13,6 +13,8 @@ export default defineConfig({
         name: 'Element HVAC',
         short_name: 'Element',
         description: 'Your Trusted HVAC Partner in Texas',
+        start_url: 'https://www.elementhvacservices.com/',
+        scope: '/',
         theme_color: '#000000',
         background_color: '#ffffff',
         display: 'standalone',
