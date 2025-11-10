@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages (peaceiris)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install & build
+        run: |
+          cd "project 2"
+          npm ci
+          npm run build
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "project 2/dist"
+          publish_branch: gh-pages
+          keep_files: false
+
+# This workflow builds the frontend in `project 2` and pushes the built `dist` folder to the
+# `gh-pages` branch using peaceiris/actions-gh-pages. The repository `CNAME` file controls the
+# custom domain (www.elementhvacservices.com) if present.
